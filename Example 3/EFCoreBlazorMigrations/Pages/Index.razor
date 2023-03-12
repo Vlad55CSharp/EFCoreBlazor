@@ -1,0 +1,55 @@
+﻿@page "/"
+
+@using Microsoft.EntityFrameworkCore
+@using EFCoreBlazorMigrations.Models
+@using EFCoreBlazor;
+
+@inject IDbContextFactory<ApplicationContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+@if (loading)
+{
+    <button type="button" class="btn btn-danger" @onclick="@LoadData">Загрузить данные</button>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (User user in users)
+            {
+                <tr>
+                    <th scope="row">@user.Id</th>
+                    <td>@user.Name</td>
+                    <td>@user.Age</td>
+                    <td>@user.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    bool loading = true;
+
+    List<User> users;
+
+    private void LoadData()
+    {
+        using (var db = DbFactory.CreateDbContext())
+        {
+            loading = true;
+            users = db.Users.ToList();
+        }
+        loading = false;
+    }
+}
