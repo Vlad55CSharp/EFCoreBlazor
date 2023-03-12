@@ -2,6 +2,9 @@ using EFCoreBlazorReverse.Data;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
+
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace EFCoreBlazorReverse
 {
@@ -15,7 +18,9 @@ namespace EFCoreBlazorReverse
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<WeatherForecastService>();
-
+            
+            builder.Services.AddDbContextFactory<UsersContext>();
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
