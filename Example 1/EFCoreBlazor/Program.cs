@@ -2,6 +2,7 @@ using EFCoreBlazor.Data;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreBlazor
 {
@@ -15,6 +16,14 @@ namespace EFCoreBlazor
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<WeatherForecastService>();
+
+            //считываем из appsettings.json строку подключения
+            string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
+            //создаем фабрику
+            if (connection != null)
+            {
+                builder.Services.AddDbContextFactory<ApplicationContext>(opt => opt.UseMySql(connection, ServerVersion.AutoDetect(connection)));
+            }
 
             var app = builder.Build();
 
