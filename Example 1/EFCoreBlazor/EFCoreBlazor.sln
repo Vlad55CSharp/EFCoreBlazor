@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreBlazor", "EFCoreBlazor.csproj", "{A391A9B1-6CA4-470C-9E31-BD4F3F74CBD6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreBlazorReverse", "..\..\Example 2\EFCoreBlazorReverse\EFCoreBlazorReverse.csproj", "{EA79EA78-DC5D-4FAB-A2EA-EC3F5BEB3B8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A391A9B1-6CA4-470C-9E31-BD4F3F74CBD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A391A9B1-6CA4-470C-9E31-BD4F3F74CBD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A391A9B1-6CA4-470C-9E31-BD4F3F74CBD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA79EA78-DC5D-4FAB-A2EA-EC3F5BEB3B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA79EA78-DC5D-4FAB-A2EA-EC3F5BEB3B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA79EA78-DC5D-4FAB-A2EA-EC3F5BEB3B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA79EA78-DC5D-4FAB-A2EA-EC3F5BEB3B8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
