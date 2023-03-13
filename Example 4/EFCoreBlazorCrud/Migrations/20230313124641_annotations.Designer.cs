@@ -3,6 +3,7 @@ using System;
 using EFCoreBlazor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCoreBlazorMigrations.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230313124641_annotations")]
+    partial class annotations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,15 +32,13 @@ namespace EFCoreBlazorMigrations.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("Added");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext")
-                        .HasColumnName("name");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Role")
                         .HasColumnType("longtext");

@@ -9,7 +9,14 @@ namespace EFCoreBlazor
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
             Database.Migrate();
-            //_ = Database.EnsureCreated();
         }
-    }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+			modelBuilder.Entity<User>()
+			.Property(u => u.Name)
+			.HasColumnName("name");
+		}
+
+	}
 }
