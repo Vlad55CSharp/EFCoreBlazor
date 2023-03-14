@@ -1,0 +1,82 @@
+﻿@page "/updateuser/{id:int}"
+
+<h3>Обновление пользователя</h3>
+
+@using EFCoreBlazorMigrations.Models
+@using Microsoft.EntityFrameworkCore
+@using EFCoreBlazor;
+
+@inject NavigationManager _navigation
+
+@inject IDbContextFactory<ApplicationContext> DbFactory
+
+@if (loading)
+{
+	<p>Получаем данные о пользователе...</p>
+}
+else
+{
+	<EditForm Model="user" OnSubmit="UpdateUserData">
+    <label for="userName" class="form-label">
+        Имя
+        <InputText class="form-control" @bind-Value="user.Name" id="userName"></InputText>
+    </label>
+    <br/>
+
+    <label for="userEmail" class="form-label">
+        Email
+        <InputText class="form-control" @bind-Value="user.Email" id="userEmail"></InputText>
+    </label>
+
+    <br/>
+
+    <label for="userAge" class="form-label">
+        Возраст
+        <InputNumber class="form-control" @bind-Value="user.Age" id="userAge"></InputNumber>
+    </label>
+    <br/>
+
+    <label for="userRole" class="form-label">
+        Роль
+        <InputText class="form-control" @bind-Value="user.Role" id="userRole"></InputText>
+    </label>
+    <br />
+
+    <button type="submit" class="btn btn-primary">Обновить</button>
+</EditForm>
+}
+
+
+@code {
+	[Parameter]
+	public int Id { get; set; }
+	bool loading = true;
+	User? user;
+
+	protected override void OnParametersSet()
+	{
+		using (var db = DbFactory.CreateDbContext())
+		{
+			loading = true;
+			user = db.Users.Where(f => f.Id == Id).FirstOrDefault();
+			loading = user == null;
+		}
+	}
+
+	private void UpdateUserData()
+	{
+		using (var db = DbFactory.CreateDbContext())
+		{
+			loading = true;
+			if (user != null)
+			{
+				db.Users.Update(user);
+				db.SaveChanges();
+				_navigation.NavigateTo("/");
+			}
+			else
+				throw new Exception("Ошибка обнвления данных пользователя");
+		}
+		loading = false;
+	}
+}

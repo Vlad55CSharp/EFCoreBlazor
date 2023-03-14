@@ -1,0 +1,80 @@
+﻿@page "/"
+
+@using Microsoft.EntityFrameworkCore
+@using EFCoreBlazorMigrations.Models
+@using EFCoreBlazor;
+
+@inject IDbContextFactory<ApplicationContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+@if (!loading)
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Name</th>
+				<th scope="col">Age</th>
+				<th scope="col">Email</th>
+				<th scope="col">Управление</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+			@foreach (User user in users)
+			{
+				<tr>
+					<th scope="row">@user.Id</th>
+					<td>@user.Name</td>
+					<td>@user.Age</td>
+					<td>@user.Email</td>
+					<td>
+						<div class="btn-group" role="group" aria-label="rules">
+							<a href="/updateuser/@user.Id" class="btn btn-info">Редактировать</a>
+							<button class="btn btn-danger" @onclick="(d=>DeleteUser(user.Id))">Удалить</button>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<a href="/adduser" class="btn btn-primary">Добавить пользователя</a>
+}
+
+
+@code {
+	bool loading = true;
+
+	User[] users = null!;
+
+	protected override void OnInitialized()
+	{
+		using (var db = DbFactory.CreateDbContext())
+		{
+			loading = true;
+			users = db.Users.ToArray();
+		}
+		loading = false;
+	}
+
+	private void DeleteUser(int id)
+	{
+		using (var db = DbFactory.CreateDbContext())
+		{
+			loading = true;
+			User? user = users.Where(f => f.Id == id).FirstOrDefault();
+			if (user != null)
+			{
+				db.Users.Remove(user);
+				db.SaveChanges();
+				users = db.Users.ToArray();
+			}
+			else
+			{
+				throw new Exception("Ошибка удаления пользователя");	
+			}
+		}
+		loading = false;
+	}
+}
