@@ -1,0 +1,63 @@
+﻿@page "/adduser"
+
+@using EFCoreBlazorMigrations.Models
+@using Microsoft.EntityFrameworkCore
+@using EFCoreBlazor;
+
+@inject NavigationManager _navigation
+
+@inject IDbContextFactory<ApplicationContext> DbFactory
+
+<h3>Новый пользователь</h3>
+
+<EditForm Model="user" OnValidSubmit="OnSubmit" OnInvalidSubmit="OnInvalid" >
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <label for="userName" class="form-label">
+        Введите имя
+        <InputText class="form-control" @bind-Value="user.Name" id="userName"></InputText>
+    </label>
+    <br/>
+
+    <label for="userEmail" class="form-label">
+        Введите email
+        <InputText class="form-control" @bind-Value="user.Email" id="userEmail"></InputText>
+    </label>
+
+    <br/>
+
+    <label for="userAge" class="form-label">
+        Введите возраст
+        <InputNumber class="form-control" @bind-Value="user.Age" id="userAge"></InputNumber>
+    </label>
+    <br/>
+
+    <label for="userRole" class="form-label">
+        Введите роль
+        <InputText class="form-control" @bind-Value="user.Role" id="userRole"></InputText>
+    </label>
+    <br />
+
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</EditForm>
+
+@code {
+    User user = new User(null,null);
+
+
+    private void OnSubmit()
+    {
+        using (var db = DbFactory.CreateDbContext())
+        {
+            user.CreatedAt = DateTime.Now;
+            db.Users.Add(user);
+            db.SaveChanges();
+        }
+        _navigation.NavigateTo("/");
+    }
+
+    public void OnInvalid()
+    {
+        Console.WriteLine("Не указано обязательное свойство");
+    }
+}
